@@ -24,12 +24,6 @@ public class Menu extends HttpServlet {
         switch(accion){
             case "1": iniciarSesion(request,response);
             break;
-            case "2": ingresarRequerimientos(request,response);
-            break;
-            case "3": consultarRequerimientos(request,response);
-            break;
-            case "4": cerrarRequerimientos(request,response);
-            break;
         }
         
                 
@@ -57,19 +51,6 @@ public class Menu extends HttpServlet {
         }   
     }  
     
-    private void ingresarRequerimientos(HttpServletRequest request, HttpServletResponse response) throws IOException, ClassNotFoundException, SQLException{        
-        HttpSession sesion = request.getSession();
-        response.sendRedirect("ingresarRequerimientos.jsp");           
-    }  
-    
-    private void consultarRequerimientos(HttpServletRequest request, HttpServletResponse response) throws IOException, ClassNotFoundException, SQLException{        
-        HttpSession sesion = request.getSession();
-        response.sendRedirect("consultarRequerimientos.jsp");           
-    } 
-    private void cerrarRequerimientos(HttpServletRequest request, HttpServletResponse response) throws IOException, ClassNotFoundException, SQLException{        
-        HttpSession sesion = request.getSession();
-        response.sendRedirect("cerrarRequerimientos.jsp");           
-    } 
     
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
