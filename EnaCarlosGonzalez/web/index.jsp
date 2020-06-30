@@ -10,28 +10,28 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Inicio</title>
     </head>
-    <body><center>
-        <h1>Autentificación</h1>
-        <form action="Menu" method="post">
-            
-                <table style="border: 1; ">
+    <body><h1>Autentificación</h1>
+        <center>  
+        <form action="Menu" method="post">           
+                <table style="border: 2; ">
                     <tr>
-                        <td>Usuario</td>
+                        <th>Usuario</th>
                         <td><input type="text" name="usuario" /></td>
                     </tr>
                     <tr>
-                        <td>Password</td>
+                        <th>Password</th>
                         <td><input type="password" name="password"/></td>
-                    </tr>
-                    <tr>
-                        <td><input type="submit" value="Ingresar"/></td>
-                        <input type="hidden" name="accion" value="1"/>
-                    </tr>
+                    </tr>   
+                    
+                    <td><input type="submit" value="Ingresar"/>
+                        <input type="hidden" name="accion" value="1"/></td>  
+                    
                 </table>
+                               
            <% if(request.getParameter("mensaje")!=null){%>
         <%=request.getParameter("mensaje") %>
         <%}%>
         </form>
-         </center>
+        </center>       
     </body>
 </html>

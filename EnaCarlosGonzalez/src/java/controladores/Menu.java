@@ -25,8 +25,7 @@ public class Menu extends HttpServlet {
             case "1": iniciarSesion(request,response);
             break;
         }
-        
-                
+                      
         }
         catch(Exception e){
             response.sendRedirect("index.jsp?mensaje="+e.getMessage());
@@ -46,7 +45,7 @@ public class Menu extends HttpServlet {
                 HttpSession sesion = request.getSession();
                 response.sendRedirect("menu.jsp");
             }else{
-                response.sendRedirect("index.jsp?mensaje=credenciales incorrectas");
+                response.sendRedirect("index.jsp?mensaje=Datos Incorrectos");
             }
         }   
     }  

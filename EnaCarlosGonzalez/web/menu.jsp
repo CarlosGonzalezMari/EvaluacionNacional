@@ -5,28 +5,30 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Menu</title>
     </head>
-    <body><center>
+    <body>
         <h1>Menu Principal</h1>
         <form action="Menu" method="post">
             
-                <table style="border: 1; ">
+                <table style="border: 3; ">
                     <tr>
-                        <td><input type="submit" value="Ingresar Requerimientos"/></td>
-                        <input type="hidden" name="accion" value="2"/>
+                        <h6><a href="ingresarRequerimientos.jsp">
+                            <input type="button" value="Ingresar Requerimientos" /></h6>
                     </tr>
+                    
                     <tr>
-                        <td><input type="submit" value="Consultar Requerimientos"/></td>
-                        <input type="hidden" name="accion" value="3"/>
+                        <h6><a href="consultarRequerimientos.jsp">
+                            <input type="button" value="Consultar Requerimientos" /></h6>
                     </tr>
+                    
                     <tr>
-                        <td><input type="submit" value="Cerrar Requerimientos"/></td>
-                        <input type="hidden" name="accion" value="4"/>
-                    </tr>
+                        <h6><a href="cerrarRequerimientos.jsp">
+                            <input type="button" value="Cerrar Requerimientos" /></h6>   
+                    </tr>                    
                 </table>
+            
            <% if(request.getParameter("mensaje")!=null){%>
         <%=request.getParameter("mensaje") %>
         <%}%>
         </form>
-         </center>
     </body>
 </html>
