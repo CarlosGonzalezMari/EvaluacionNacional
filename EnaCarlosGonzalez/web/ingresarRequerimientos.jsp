@@ -3,8 +3,11 @@
     Created on : 29-06-2020, 22:06:27
     Author     : Carlos_MDFK
 --%>
-
+<%@page import="java.util.ArrayList"%>
+<%@page import="modelos.Gerencia"%>
+<%@page import="modelos.Asignaciones"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -15,9 +18,24 @@
         <h1>Ingresar Requerimientos</h1>
         
         <table style="border: 2; ">
+            
                 <tr>
                     <th>Gerencia:</th>
-                    <td><select name="gerencia"></select></td>
+                    <% try{
+                    Gerencia ge = new Gerencia(); 
+                    ArrayList<Gerencia> gerencias = ge.obtenerGerencia(); 
+                    %>
+                    <td><select name="gerencia">
+                        <% for(Gerencia g: gerencias){%>
+                        <option value="<%= g.getIdgerencia()%>"> 
+                            <%= g.getGerencia()%>
+                        </option>
+                        <% }%>
+                    </select></td>
+                    <%
+                            }catch(Exception e){ 
+                                out.println(e.getMessage());
+                            } %>
                 </tr>
                 <tr>
                     <th>Departamento:</th>
@@ -25,7 +43,21 @@
                 </tr>  
                 <tr>
                     <th>Asignar a:</th>
-                    <td><select name="asignar"></select></td>
+                    <% try{
+                    Asignaciones as = new Asignaciones(); 
+                    ArrayList<Asignaciones> asignaciones = as.obtenerAsignacion(); 
+                    %>
+                    <td><select name="asignar">
+                        <% for(Asignaciones a: asignaciones){%>
+                        <option value="<%= a.getAsignacionesid()%>"> 
+                            <%= a.getAsignacion()%>
+                        </option>
+                        <% }%>
+                    </select></td>
+                    <%
+                            }catch(Exception e){ 
+                                out.println(e.getMessage());
+                            } %>
                 </tr>
                 <tr>
                     <th>Encargado:</th>
@@ -37,11 +69,10 @@
                 </tr>
                 <tr>
                     <th><a href=".jsp">
-                        <input type="button" value="Guardar" /></th>
-                    
+                            <input type="button" value="Guardar" /></a></th>
                 <td>
-                    <th><a href="menu.jsp">
-                        <input type="button" value="Volver al menú" /></th>
+                <th><a href="menu.jsp">
+                        <input type="button" value="Volver al menú" /></a></th>
                     
             </table>
     </body>
