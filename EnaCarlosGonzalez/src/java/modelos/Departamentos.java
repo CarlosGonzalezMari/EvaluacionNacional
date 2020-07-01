@@ -14,7 +14,7 @@ public class Departamentos {
     public Departamentos() throws ClassNotFoundException, SQLException {
         conexion = new Conexion();
     }
-    public Departamentos(int idgerencia, String gerencia) throws ClassNotFoundException, SQLException {
+    public Departamentos(int departamentosid, int gerenciaid, String departamento) throws ClassNotFoundException, SQLException {
         conexion = new Conexion();
         this.departamentosid = departamentosid;
         this.gerenciaid = gerenciaid;
@@ -53,4 +53,13 @@ public class Departamentos {
         this.departamento = departamento;
     }
     
+    public ArrayList<Departamentos> obtenerDepartamentos(int gerenciasid) throws SQLException, ClassNotFoundException{
+        String sentencia = "select departamentosid, gerenciasid, departamento from departamentos where gerenciasid='"+gerenciasid+"'";
+        ArrayList<Departamentos> departamentos = new ArrayList();
+        ResultSet rs = conexion.consultarSQL(sentencia);
+        while(rs.next()){
+            departamentos.add(new Departamentos(rs.getInt("departamentosid"),rs.getInt("gerenciasid"),rs.getString("departamento")));
+        }
+        return departamentos;
+    }
 }

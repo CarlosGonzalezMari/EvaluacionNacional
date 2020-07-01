@@ -15,7 +15,7 @@ public class Encargados {
         conexion = new Conexion();
     }
     
-    public Encargados(int idgerencia, String gerencia) throws ClassNotFoundException, SQLException {
+    public Encargados(int encargadosid, int asignacionesid, String encargado) throws ClassNotFoundException, SQLException {
         conexion = new Conexion();
         this.encargadosid = encargadosid;
         this.asignacionesid = asignacionesid;
@@ -54,5 +54,13 @@ public class Encargados {
         this.encargado = encargado;
     }
     
-    
+    public ArrayList<Encargados> obtenerEncargados(int asignacionesid) throws SQLException, ClassNotFoundException{
+        String sentencia = "select encargadosid, asignacionesid, encargado from encargados where asignacionesid='"+asignacionesid+"'";
+        ArrayList<Encargados> encargados = new ArrayList();
+        ResultSet rs = conexion.consultarSQL(sentencia);
+        while(rs.next()){
+            encargados.add(new Encargados(rs.getInt("encargadosid"),rs.getInt("asignacionesid"),rs.getString("encargado")));
+        }
+        return encargados;
+    }   
 }
