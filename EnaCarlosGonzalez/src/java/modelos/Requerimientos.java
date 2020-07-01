@@ -10,6 +10,8 @@ public class Requerimientos {
     private String departamento;
     private String asignacion;
     private String encargado;
+    private int requerimientoid;
+    private String descripcion;
     private Conexion conexion;
     
     
@@ -17,14 +19,14 @@ public class Requerimientos {
         conexion = new Conexion();
     }
 
-    public Requerimientos(String gerencia,String departamento,String asignacion,String encargado) throws ClassNotFoundException, SQLException {
+    public Requerimientos(String gerencia,String departamento,String asignacion,String encargado, String descripcion) throws ClassNotFoundException, SQLException {
         this.gerencia = gerencia;
         this.departamento = departamento;
         this.asignacion = asignacion;
         this.encargado = encargado;
+        this.descripcion = descripcion;
         conexion = new Conexion();
     }
-
     public String getGerencia() {
         return gerencia;
     }
@@ -52,9 +54,25 @@ public class Requerimientos {
     public String getEncargado() {
         return encargado;
     }
+    
+    public int getRequerimientoid() {
+        return requerimientoid;
+    }
 
+    public void setRequerimientoid(int requerimientoid) {
+        this.requerimientoid = requerimientoid;
+    }
+    
     public void setEncargado(String encargado) {
         this.encargado = encargado;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public Conexion getConexion() {
@@ -63,6 +81,25 @@ public class Requerimientos {
 
     public void setConexion(Conexion conexion) {
         this.conexion = conexion;
+    }
+    public String ingresarRequerimientos() throws SQLException{
+        requerimientoid = selectId();
+        String sentencia = "INSERT INTO requerimientos VALUES ('"+requerimientoid+"',"
+                + "'"+gerencia+"',"+ "'"+departamento+"','"+asignacion+"','"+encargado+"',"+ "'"+descripcion+"','Abierto')";
+        if(conexion.ejecutarSQL(sentencia)==1){
+            return "Requerimiento registrado";
+        }else{
+            return "No se pudo registrar el requerimiento";
+        }
+    }
+    public int selectId() throws SQLException{
+        String sentencia = "select requerimientoid from requerimientos order by requerimientoid asc";
+        ResultSet rs = conexion.consultarSQL(sentencia);
+        int value = 0;
+        while(rs.next()){
+            value = rs.getInt("requerimientoid");
+        }
+        return value+1;
     }
     
 /*    public ArrayList<String> obtenerGerencia() throws SQLException, ClassNotFoundException{
@@ -75,4 +112,7 @@ public class Requerimientos {
         }
         return usuarios;
     }*/
+
+   
+    
 }

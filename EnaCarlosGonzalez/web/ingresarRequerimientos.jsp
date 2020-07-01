@@ -18,7 +18,7 @@
     </head>
     <body>
         <h1>Ingresar Requerimientos</h1>
-        
+        <form action="Menu" method="post">
         <table style="border: 2; ">
             
                 <tr>
@@ -28,8 +28,9 @@
                     ArrayList<Gerencia> gerencias = ge.obtenerGerencia(); 
                     %>
                     <td><select name="gerencia">
+                        <option disabled selected>Seleccionar</option>   
                         <% for(Gerencia g: gerencias){%>
-                        <option value="<%= g.getIdgerencia()%>"> 
+                        <option value="<%= g.getGerencia()%>"> 
                             <%= g.getGerencia()%>
                         </option>
                         <% }%>
@@ -43,9 +44,10 @@
                     <th>Departamento:</th>
                     <% try{
                     Departamentos de = new Departamentos(); 
-                    ArrayList<Departamentos> departamentos = de.obtenerDepartamentos(gerenciasid); 
+                    ArrayList<Departamentos> departamentos = de.obtenerDepartamentos(); 
                     %>
                     <td><select name="departamento">
+                        <option disabled selected>Seleccionar</option>
                         <% for(Departamentos d: departamentos){%>
                         <option value="<%= d.getDepartamento()%>"> 
                             <%= d.getDepartamento()%>
@@ -64,8 +66,9 @@
                     ArrayList<Asignaciones> asignaciones = as.obtenerAsignacion(); 
                     %>
                     <td><select name="asignar">
+                        <option disabled selected>Seleccionar</option>    
                         <% for(Asignaciones a: asignaciones){%>
-                        <option value="<%= a.getAsignacionesid()%>"> 
+                        <option value="<%= a.getAsignacion()%>"> 
                             <%= a.getAsignacion()%>
                         </option>
                         <% }%>
@@ -77,19 +80,35 @@
                 </tr>
                 <tr>
                     <th>Encargado:</th>
-                    <td><select name="encargado"></select></td>
+                    <% try{
+                    Encargados en = new Encargados(); 
+                    ArrayList<Encargados> encargados = en.obtenerEncargados(); 
+                    %>
+                    <td><select name="encargado">
+                        <option disabled selected>Seleccionar</option>
+                        <% for(Encargados e: encargados){%>
+                        <option value="<%= e.getEncargado()%>"> 
+                            <%= e.getEncargado()%>
+                        </option>
+                        <% }%>
+                    </select></td>
+                    <%
+                            }catch(Exception e){ 
+                                out.println(e.getMessage());
+                            } %>
                 </tr>
                 <tr>
                     <th>Requerimiento:</th>
-                    <td><textarea type="text" rows="8" cols="38" /></textarea></td>
+                    <td><textarea name="requerimiento" type="text" rows="8" cols="38" placeholder="Ingrese descripción del requerimiento"/></textarea></td>
                 </tr>
                 <tr>
-                    <th><a href=".jsp">
-                            <input type="button" value="Guardar" /></a></th>
+                    <input type="submit" value="Guardar"/>
+                        <input type="hidden" name="accion" value="2"/>
                 <td>
                 <th><a href="menu.jsp">
                         <input type="button" value="Volver al menú" /></a></th>
                     
             </table>
+        </form>
     </body>
 </html>

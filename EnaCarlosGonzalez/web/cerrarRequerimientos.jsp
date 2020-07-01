@@ -23,6 +23,7 @@
                     ArrayList<Gerencia> gerencias = ge.obtenerGerencia(); 
                     %>
                     <td><select name="gerencia">
+                        <option disabled selected>Seleccionar</option>
                         <% for(Gerencia g: gerencias){%>
                         <option value="<%= g.getIdgerencia()%>"> 
                             <%= g.getGerencia()%>
@@ -45,6 +46,7 @@
                     ArrayList<Asignaciones> asignaciones = as.obtenerAsignacion(); 
                     %>
                     <td><select name="asignar">
+                        <option disabled selected>Seleccionar</option>
                         <% for(Asignaciones a: asignaciones){%>
                         <option value="<%= a.getAsignacionesid()%>"> 
                             <%= a.getAsignacion()%>

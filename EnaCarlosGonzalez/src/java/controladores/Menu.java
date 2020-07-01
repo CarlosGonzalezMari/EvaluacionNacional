@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import modelos.Requerimientos;
 import modelos.Usuario;
 
 
@@ -23,6 +24,8 @@ public class Menu extends HttpServlet {
                         
         switch(accion){
             case "1": iniciarSesion(request,response);
+            break;
+            case "2": ingresarRequerimiento(request,response);
             break;
         }
                       
@@ -48,10 +51,25 @@ public class Menu extends HttpServlet {
                 response.sendRedirect("index.jsp?mensaje=Datos Incorrectos");
             }
         }   
-    }  
+    }
     
+    private void ingresarRequerimiento(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        try{
+        Requerimientos r = new Requerimientos(getString("gerencia",request), getString("departamento",request), 
+                getString("asignar",request), getString("encargado",request), getString("requerimiento",request));
+        response.sendRedirect("ingresarRequerimientos.jsp?mensaje="+r.ingresarRequerimientos());
+        } catch (Exception e) {
+                response.sendRedirect("ingresarRequerimientos.jsp?mensaje="+e.getMessage());
+            }
+    }
     
-    
+    private String getString(String nombre,HttpServletRequest request){
+        return request.getParameter(nombre);
+    }
+    private int getInt(String nombre,HttpServletRequest request){
+        return Integer.parseInt(request.getParameter(nombre));
+    }       
+        
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
