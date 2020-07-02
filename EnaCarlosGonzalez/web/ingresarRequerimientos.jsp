@@ -107,7 +107,10 @@
                     </th>
                 <td>
                 <th><a href="menu.jsp">
-                        <input type="button" value="Volver al menú" /></a></th>                    
+                        <input type="button" value="Volver al menú" /></a></th>
+                <% if(request.getParameter("mensaje")!=null){%>
+                    <%=request.getParameter("mensaje") %>
+                <%}%>
             </table>
         </form>
     </body>

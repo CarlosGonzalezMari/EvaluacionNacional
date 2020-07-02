@@ -1,7 +1,6 @@
 package controladores;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
@@ -9,15 +8,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import modelos.Requerimientos;
 import modelos.Usuario;
 
 
 @WebServlet(name = "Menu", urlPatterns = {"/Menu"})
 public class Menu extends HttpServlet {
-  
-    private ArrayList<Requerimientos> requerimientos = new ArrayList();
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -30,6 +26,10 @@ public class Menu extends HttpServlet {
             case "2": ingresarRequerimiento(request,response);
             break;
             case "3": consultarRequerimiento(request,response);
+            break;
+            case "4": consultarRequerimientoDos(request,response);
+            break;
+            case "5": cerrarRequerimientos(request,response);
             break;
         }
                       
@@ -49,7 +49,6 @@ public class Menu extends HttpServlet {
             u.setUsuario(usuario);
             u.setPassword(password);
             if(u.iniciarSesion()){
-                HttpSession sesion = request.getSession();
                 response.sendRedirect("menu.jsp");
             }else{
                 response.sendRedirect("index.jsp?mensaje=Datos Incorrectos");
@@ -59,23 +58,51 @@ public class Menu extends HttpServlet {
     
     private void ingresarRequerimiento(HttpServletRequest request, HttpServletResponse response) throws IOException{
         try{
-        Requerimientos r = new Requerimientos(getString("gerencia",request), getString("departamento",request), 
-                getString("asignar",request), getString("encargado",request), getString("requerimiento",request));
+        Requerimientos r = new Requerimientos(0, getString("gerencia",request), getString("departamento",request), 
+                getString("asignar",request), getString("encargado",request), getString("requerimiento",request), null);
         response.sendRedirect("ingresarRequerimientos.jsp?mensaje="+r.ingresarRequerimientos());
         } catch (Exception e) {
                 response.sendRedirect("ingresarRequerimientos.jsp?mensaje="+e.getMessage());
             }
     }
+    
     private void consultarRequerimiento(HttpServletRequest request, HttpServletResponse response) throws IOException{
         try{
-        Requerimientos r = new Requerimientos(getString("gerencia",request), getString("departamento",request), 
-                getString("asignar",request), null, null);
-        requerimientos = r.consultarRequerimientos();
-        response.sendRedirect("consultarRequerimientos.jsp");
+        Requerimientos r = new Requerimientos(0, getString("gerencia",request), getString("departamento",request), 
+                getString("asignar",request), null, null, null);
+        ArrayList<Requerimientos> listRequerimientos = r.consultarRequerimientos();
+        request.setAttribute("listRequerimientos", listRequerimientos);
+        request.getRequestDispatcher("consultarRequerimientos.jsp").forward(request, response);
         } catch (Exception e) {
                 response.sendRedirect("consultarRequerimientos.jsp?mensaje="+e.getMessage());
             }
     }
+    
+    private void consultarRequerimientoDos(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        try{
+        Requerimientos r = new Requerimientos(0, getString("gerencia",request), getString("departamento",request), 
+                getString("asignar",request), null, null, null);
+        ArrayList<Requerimientos> listRequerimientos = r.consultarRequerimientosDos();
+        request.setAttribute("listRequerimientos", listRequerimientos);
+        request.getRequestDispatcher("cerrarRequerimientos.jsp").forward(request, response);
+        } catch (Exception e) {
+                response.sendRedirect("cerrarRequerimientos.jsp?mensaje="+e.getMessage());
+            }
+    }
+    
+    private void cerrarRequerimientos(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        try{
+            int idReq = Integer.parseInt(request.getParameter("cerrarRequerimiento"));
+            Requerimientos req = new Requerimientos(idReq, getString("gerencia",request), getString("departamento",request), 
+                getString("asignar",request), null, null, null);
+            ArrayList<Requerimientos> listRequerimientos = req.cerrarRequerimientos();
+            request.setAttribute("listRequerimientos", listRequerimientos);
+            request.getRequestDispatcher("cerrarRequerimientos.jsp").forward(request, response);
+        } catch (Exception e) {
+                response.sendRedirect("cerrarRequerimientos.jsp?mensaje="+e.getMessage());
+            }
+    }
+    
     private String getString(String nombre,HttpServletRequest request){
         return request.getParameter(nombre);
     }
@@ -121,13 +148,4 @@ public class Menu extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-    public ArrayList<Requerimientos> getRequerimientos() {
-        return requerimientos;
-    }
-
-    public void setRequerimientos(ArrayList<Requerimientos> requerimientos) {
-        this.requerimientos = requerimientos;
-    }
-
 }

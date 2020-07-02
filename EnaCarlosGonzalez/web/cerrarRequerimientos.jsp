@@ -7,6 +7,7 @@
 <%@page import="modelos.Gerencia"%>
 <%@page import="modelos.Departamentos"%>
 <%@page import="modelos.Asignaciones"%>
+<%@page import="modelos.Requerimientos"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -16,6 +17,7 @@
     </head>
     <body>
         <h1>Cerrar Requerimietos</h1>
+        <form name="buscarReq" action="Menu" method="post">
         <table style="border: 2; ">
                 <tr>
                     <th>Gerencia:</th>
@@ -26,7 +28,7 @@
                     <td><select name="gerencia">
                         <option disabled selected>Seleccionar</option>
                         <% for(Gerencia g: gerencias){%>
-                        <option value="<%= g.getIdgerencia()%>"> 
+                        <option value="<%= g.getGerencia()%>"> 
                             <%= g.getGerencia()%>
                         </option>
                         <% }%>
@@ -64,7 +66,7 @@
                     <td><select name="asignar">
                         <option disabled selected>Seleccionar</option>
                         <% for(Asignaciones a: asignaciones){%>
-                        <option value="<%= a.getAsignacionesid()%>"> 
+                        <option value="<%= a.getAsignacion()%>"> 
                             <%= a.getAsignacion()%>
                         </option>
                         <% }%>
@@ -73,22 +75,46 @@
                             }catch(Exception e){ 
                                 out.println(e.getMessage());
                             } %>
-                </tr>          
+                </tr>
+                <tr>
+                    <td><th><input type="submit" value="Buscar"/>
+                    <input type="hidden" name="accion" value="4"/></th></td>
+                </tr>
         </table>
-    <center><a href=".jsp">
-            <input type="button" value="Buscar" /></a></center>
-    <center>
+        </form>
+        <form name="cerrarReq" action="Menu" method="post">
         <table border="2">
             <tr>
-                <th>Gerencia</th>
-                <th>Departamento</th>     
-                <th>Asignado a</th>
-                <th>Requerimiento </th>                       
-        </td></table>
+                <td><b>GERENCIA</b></td>
+                <td><b>DEPARTAMENTO</b></td>           
+                <td><b>ASIGNADO A</b></td>
+                <td><b>REQUERIMIENTO</b></td>
+                <td></td>  
+            </tr>
+            <% if(request.getAttribute("listRequerimientos")!=null){
+                    ArrayList<Requerimientos> req = (ArrayList<Requerimientos>)request.getAttribute("listRequerimientos");
+                    ;
+                    for(Requerimientos r: req){%>
+                    <tr>
+                        <td><%=r.getGerencia()%></td>
+                        <td><%=r.getDepartamento()%></td>           
+                        <td><%=r.getAsignacion()%></td>
+                        <td><%=r.getDescripcion()%></td>
+                        <td><input type="button" value="Cerrar" onclick="document.getElementById('cerrarRequerimiento').value='<%=r.getRequerimientoid()%>';this.form.submit();"/></td>
+                    </tr>
+            <%}} %>
+            <input type="hidden" id="cerrarRequerimiento" name="cerrarRequerimiento" value="0" />
+            <input type="hidden" name="accion" value="5" />
+        </table>
+        </form>
     </center>
     <tr>
-        <th><a href="menu.jsp">
-                <input type="button" value="Volver al menú" /></a></th>
+        <td>
+            <th><a href="menu.jsp"><input type="button" value="Volver al menú" /></a></th>
+        </td>
     </tr>
+    <% if(request.getParameter("mensaje")!=null){%>
+                <%=request.getParameter("mensaje") %>
+            <%}%>
     </body>
 </html>

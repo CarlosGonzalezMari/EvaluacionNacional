@@ -12,6 +12,7 @@ public class Requerimientos {
     private String encargado;
     private int requerimientoid;
     private String descripcion;
+    private String estado;
     private Conexion conexion;
     
     
@@ -19,12 +20,14 @@ public class Requerimientos {
         conexion = new Conexion();
     }
 
-    public Requerimientos(String gerencia,String departamento,String asignacion,String encargado, String descripcion) throws ClassNotFoundException, SQLException {
+    public Requerimientos(int requerimientoid, String gerencia,String departamento,String asignacion,String encargado, String descripcion, String estado) throws ClassNotFoundException, SQLException {
+        this.requerimientoid = requerimientoid;
         this.gerencia = gerencia;
         this.departamento = departamento;
         this.asignacion = asignacion;
         this.encargado = encargado;
         this.descripcion = descripcion;
+        this.estado = estado;
         conexion = new Conexion();
     }
     public String getGerencia() {
@@ -75,6 +78,14 @@ public class Requerimientos {
         this.descripcion = descripcion;
     }
 
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
     public Conexion getConexion() {
         return conexion;
     }
@@ -82,6 +93,7 @@ public class Requerimientos {
     public void setConexion(Conexion conexion) {
         this.conexion = conexion;
     }
+    
     public String ingresarRequerimientos() throws SQLException{
         requerimientoid = selectId();
         String sentencia = "INSERT INTO requerimientos VALUES ('"+requerimientoid+"',"
@@ -92,6 +104,7 @@ public class Requerimientos {
             return "No se pudo registrar el requerimiento";
         }
     }
+    
     public int selectId() throws SQLException{
         String sentencia = "select requerimientoid from requerimientos order by requerimientoid asc";
         ResultSet rs = conexion.consultarSQL(sentencia);
@@ -101,14 +114,42 @@ public class Requerimientos {
         }
         return value+1;
     }
+    
     public ArrayList<Requerimientos> consultarRequerimientos() throws SQLException, ClassNotFoundException{
-        String sentencia = "SELECT gerencia, departamento, asignacion, descripcion FROM "
-                + "requerimientos where gerencia='"+gerencia+" and departamento='"+departamento+" and asignacion='"+asignacion+"";
+        String sentencia = "SELECT requerimientoid, gerencia, departamento, asignacion, descripcion FROM "
+                + "requerimientos WHERE gerencia='"+gerencia+"' and departamento='"+departamento+"' and asignacion='"+asignacion+"'";
         ArrayList<Requerimientos> requerimientos = new ArrayList();
         ResultSet rs = conexion.consultarSQL(sentencia);
         while(rs.next()){
-            requerimientos.add(new Requerimientos(rs.getString("gerencia"), rs.getString("departamento"),rs.getString("asignacion"), null, rs.getString("descripcion")));
+            requerimientos.add(new Requerimientos(rs.getInt("requerimientoid"), rs.getString("gerencia"), rs.getString("departamento"),rs.getString("asignacion"), null, rs.getString("descripcion"), null));
         }
         return requerimientos;
-    }           
+    }
+    
+    public ArrayList<Requerimientos> consultarRequerimientosDos() throws SQLException, ClassNotFoundException{
+        String sentencia = "SELECT requerimientoid, gerencia, departamento, asignacion, descripcion, estado FROM "
+                + "requerimientos WHERE gerencia='"+gerencia+"' and departamento='"+departamento+"' and asignacion='"+asignacion+"' and estado='Abierto'";
+        ArrayList<Requerimientos> requerimientos = new ArrayList();
+        ResultSet rs = conexion.consultarSQL(sentencia);
+        while(rs.next()){
+            requerimientos.add(new Requerimientos(rs.getInt("requerimientoid"), rs.getString("gerencia"), rs.getString("departamento"),rs.getString("asignacion"), null, rs.getString("descripcion"), rs.getString("estado")));
+        }
+        return requerimientos;
+    }
+    
+    public ArrayList<Requerimientos> cerrarRequerimientos() throws SQLException, ClassNotFoundException{
+        String sentencia = "UPDATE requerimientos SET estado = 'Cerrado' WHERE requerimientoid = "+requerimientoid+"";
+        ArrayList<Requerimientos> requerimientos = new ArrayList();
+        if(conexion.ejecutarSQL(sentencia)==1){
+            String sentenciaSelect = "SELECT gerencia, departamento, asignacion FROM requerimientos WHERE requerimientoid = "+requerimientoid+"";
+            ResultSet rs = conexion.consultarSQL(sentenciaSelect);
+            while(rs.next()){
+                gerencia = rs.getString("gerencia");
+                departamento = rs.getString("departamento");
+                asignacion = rs.getString("asignacion");
+            }
+            requerimientos = consultarRequerimientosDos();
+        }
+        return requerimientos;
+    }
 }
