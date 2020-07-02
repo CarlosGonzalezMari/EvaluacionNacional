@@ -85,7 +85,7 @@ public class Requerimientos {
     public String ingresarRequerimientos() throws SQLException{
         requerimientoid = selectId();
         String sentencia = "INSERT INTO requerimientos VALUES ('"+requerimientoid+"',"
-                + "'"+gerencia+"',"+ "'"+departamento+"','"+asignacion+"','"+encargado+"',"+ "'"+descripcion+"','Abierto')";
+                + "'"+gerencia+"',"+ "'"+departamento+"','"+asignacion+"','"+encargado+"','"+descripcion+"','Abierto')";
         if(conexion.ejecutarSQL(sentencia)==1){
             return "Requerimiento registrado";
         }else{
@@ -101,18 +101,14 @@ public class Requerimientos {
         }
         return value+1;
     }
-    
-/*    public ArrayList<String> obtenerGerencia() throws SQLException, ClassNotFoundException{
-        String sentencia = "select * from usuario order by nombre,apellido";
-        ArrayList<Usuario> usuarios = new ArrayList();
+    public ArrayList<Requerimientos> consultarRequerimientos() throws SQLException, ClassNotFoundException{
+        String sentencia = "SELECT gerencia, departamento, asignacion, descripcion FROM "
+                + "requerimientos where gerencia='"+gerencia+" and departamento='"+departamento+" and asignacion='"+asignacion+"";
+        ArrayList<Requerimientos> requerimientos = new ArrayList();
         ResultSet rs = conexion.consultarSQL(sentencia);
         while(rs.next()){
-            usuarios.add(new Usuario(rs.getString("usuario"),rs.getString("nombre"),
-                    rs.getString("apellido"),rs.getString("password")));
+            requerimientos.add(new Requerimientos(rs.getString("gerencia"), rs.getString("departamento"),rs.getString("asignacion"), null, rs.getString("descripcion")));
         }
-        return usuarios;
-    }*/
-
-   
-    
+        return requerimientos;
+    }           
 }

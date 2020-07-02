@@ -5,6 +5,7 @@
 --%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="modelos.Gerencia"%>
+<%@page import="modelos.Departamentos"%>
 <%@page import="modelos.Asignaciones"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -37,7 +38,22 @@
                 </tr>
                 <tr>
                     <th>Departamento:</th>
-                    <td><select name="departamento"></select></td>
+                    <% try{
+                    Departamentos de = new Departamentos(); 
+                    ArrayList<Departamentos> departamentos = de.obtenerDepartamentos(); 
+                    %>
+                    <td><select name="departamento">
+                        <option disabled selected>Seleccionar</option>
+                        <% for(Departamentos d: departamentos){%>
+                        <option value="<%= d.getDepartamento()%>"> 
+                            <%= d.getDepartamento()%>
+                        </option>
+                        <% }%>
+                    </select></td>
+                    <%
+                            }catch(Exception e){ 
+                                out.println(e.getMessage());
+                            } %>
                 </tr>  
                 <tr>
                     <th>Asignar a:</th>
@@ -67,9 +83,8 @@
                 <th>Gerencia</th>
                 <th>Departamento</th>     
                 <th>Asignado a</th>
-                <th>Requerimiento </th>
-            </tr>            
-        </table>
+                <th>Requerimiento </th>                       
+        </td></table>
     </center>
     <tr>
         <th><a href="menu.jsp">

@@ -36,7 +36,7 @@ public class Usuario {
     }   
     
     public boolean iniciarSesion() throws SQLException{
-        String sentencia = "select * from usuario where usuarioid ='"+usuario+"' "
+        String sentencia = "select * from usuario where nombre ='"+usuario+"' "
                 + " and password = '"+password+"'";
         ResultSet rs = conexion.consultarSQL(sentencia);
         boolean respuesta = false;

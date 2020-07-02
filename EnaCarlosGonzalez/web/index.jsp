@@ -16,16 +16,16 @@
                 <table style="border: 2; ">
                     <tr>
                         <th>Usuario</th>
-                        <td><input type="text" name="usuario" /></td>
+                        <td><input type="text" name="usuario" placeholder="Usuario"/></td>
                     </tr>
+                    
                     <tr>
                         <th>Password</th>
-                        <td><input type="password" name="password"/></td>
+                        <td><input type="password" name="password" placeholder="Password"/></td>
                     </tr>   
                     
                     <td><input type="submit" value="Ingresar"/>
-                        <input type="hidden" name="accion" value="1"/></td>  
-                    
+                        <input type="hidden" name="accion" value="1"/></td>                      
                 </table>
                                
            <% if(request.getParameter("mensaje")!=null){%>

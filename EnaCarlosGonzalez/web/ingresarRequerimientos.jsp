@@ -102,12 +102,12 @@
                     <td><textarea name="requerimiento" type="text" rows="8" cols="38" placeholder="Ingrese descripción del requerimiento"/></textarea></td>
                 </tr>
                 <tr>
-                    <input type="submit" value="Guardar"/>
+                    <th><input type="submit" value="Guardar"/>
                         <input type="hidden" name="accion" value="2"/>
+                    </th>
                 <td>
                 <th><a href="menu.jsp">
-                        <input type="button" value="Volver al menú" /></a></th>
-                    
+                        <input type="button" value="Volver al menú" /></a></th>                    
             </table>
         </form>
     </body>

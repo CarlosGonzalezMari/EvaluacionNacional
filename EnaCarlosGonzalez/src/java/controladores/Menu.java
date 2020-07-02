@@ -17,6 +17,8 @@ import modelos.Usuario;
 @WebServlet(name = "Menu", urlPatterns = {"/Menu"})
 public class Menu extends HttpServlet {
   
+    private ArrayList<Requerimientos> requerimientos = new ArrayList();
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try{
@@ -26,6 +28,8 @@ public class Menu extends HttpServlet {
             case "1": iniciarSesion(request,response);
             break;
             case "2": ingresarRequerimiento(request,response);
+            break;
+            case "3": consultarRequerimiento(request,response);
             break;
         }
                       
@@ -62,7 +66,16 @@ public class Menu extends HttpServlet {
                 response.sendRedirect("ingresarRequerimientos.jsp?mensaje="+e.getMessage());
             }
     }
-    
+    private void consultarRequerimiento(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        try{
+        Requerimientos r = new Requerimientos(getString("gerencia",request), getString("departamento",request), 
+                getString("asignar",request), null, null);
+        requerimientos = r.consultarRequerimientos();
+        response.sendRedirect("consultarRequerimientos.jsp");
+        } catch (Exception e) {
+                response.sendRedirect("consultarRequerimientos.jsp?mensaje="+e.getMessage());
+            }
+    }
     private String getString(String nombre,HttpServletRequest request){
         return request.getParameter(nombre);
     }
@@ -108,5 +121,13 @@ public class Menu extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    public ArrayList<Requerimientos> getRequerimientos() {
+        return requerimientos;
+    }
+
+    public void setRequerimientos(ArrayList<Requerimientos> requerimientos) {
+        this.requerimientos = requerimientos;
+    }
 
 }
