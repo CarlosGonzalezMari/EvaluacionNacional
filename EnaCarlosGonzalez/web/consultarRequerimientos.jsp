@@ -104,14 +104,15 @@
                         <td><%=r.getDescripcion()%></td>
                     </tr>
             <%}} %>            
-            <tr>
-                <th><h3><a href="menu.jsp"></h3>
-                <input type="button" value="Volver al menú" />
-            </tr>
+
             <% if(request.getParameter("mensaje")!=null){%>
                 <%=request.getParameter("mensaje") %>
             <%}%>
         </table>
+                    <tr>
+                <th><h3><a href="menu.jsp"></h3>
+                <input type="button" value="Volver al menú" />
+            </tr>
         </form>
     </body>
 </html>
