@@ -60,18 +60,6 @@ public class Departamentos {
         while(rs.next()){
             departamentos.add(new Departamentos(rs.getInt("departamentosid"),rs.getInt("gerenciasid"),rs.getString("departamento")));
         }
-        return departamentos;
-        
-        
+        return departamentos;        
     }
-    /*public ArrayList<Departamentos> obtenerDepartamentos(int gerenciasid) throws SQLException, ClassNotFoundException{}
-        String sentencia = "select departamentosid, gerenciasid, departamento from departamentos where gerenciasid='"+gerenciasid+"'";
-        ArrayList<Departamentos> departamentos = new ArrayList();
-        ResultSet rs = conexion.consultarSQL(sentencia);
-        while(rs.next()){
-            departamentos.add(new Departamentos(rs.getInt("departamentosid"),rs.getInt("gerenciasid"),rs.getString("departamento")));
-        }
-        return departamentos;
-    }*/
-    
 }
